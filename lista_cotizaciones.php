@@ -40,6 +40,7 @@ $resultado_facturas = $conexion->query($consulta_facturas);
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Lista de Cotizaciones</title>
     <link href="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css" rel="stylesheet">
+    <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
 </head>
 <body>
     <div class="container mt-5">
@@ -65,7 +66,7 @@ $resultado_facturas = $conexion->query($consulta_facturas);
                         <td><?php echo $factura['fecha']; ?></td>
                         <td>
                             <a href="ver_cotizacion.php?factura_id=<?php echo $factura['id']; ?>" class="btn btn-primary">Ver Orden</a>
-                            <a href="eliminar_factura.php?factura_id=<?php echo $factura['id']; ?>" class="btn btn-danger" onclick="return confirm('¿Estás seguro de que deseas eliminar esta orden?');">Eliminar</a>
+                            <a href="#" class="btn btn-danger" onclick="confirmDeleteFactura(<?php echo $factura['id']; ?>);">Eliminar</a>
                         </td>
                     </tr>
                 <?php } ?>
@@ -77,6 +78,24 @@ $resultado_facturas = $conexion->query($consulta_facturas);
     <script src="https://code.jquery.com/jquery-3.5.1.slim.min.js"></script>
     <script src="https://cdn.jsdelivr.net/npm/@popperjs/core@2.9.2/dist/umd/popper.min.js"></script>
     <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/js/bootstrap.min.js"></script>
+    <script>
+        function confirmDeleteFactura(facturaId) {
+            Swal.fire({
+                title: '¿Estás seguro?',
+                text: "¡No podrás revertir esta acción!",
+                icon: 'warning',
+                showCancelButton: true,
+                confirmButtonColor: '#3085d6',
+                cancelButtonColor: '#d33',
+                confirmButtonText: 'Sí, eliminarla!',
+                cancelButtonText: 'Cancelar'
+            }).then((result) => {
+                if (result.isConfirmed) {
+                    window.location.href = 'eliminar_factura.php?factura_id=' + facturaId;
+                }
+            });
+        }
+    </script>
 </body>
 </html>
 <?php
