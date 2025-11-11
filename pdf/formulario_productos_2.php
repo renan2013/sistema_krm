@@ -320,7 +320,7 @@ $result = $conn->query($sql);
         </form>
     </div>
     <?php
-include "footer.php";
+include "../footer.php";
 ?>
 
     <script src="https://code.jquery.com/jquery-3.3.1.slim.min.js"></script>
