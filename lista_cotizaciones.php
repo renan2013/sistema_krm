@@ -5,22 +5,24 @@ include "menu.php";
 // Conexión a la base de datos
 $conexion = new mysqli('localhost', 'u400283574_krm', 'Krm2024!', 'u400283574_krm');
 
-// Obtener el ID de la factura desde la URL
-$factura_id = $_GET['factura_id'];
+// Obtener el ID de la factura desde la URL, si existe
+if (isset($_GET['factura_id'])) {
+    $factura_id = $_GET['factura_id'];
 
-// Eliminar productos asociados a la factura
-$consulta_productos = "DELETE FROM productos_factura WHERE factura_id = ?";
-$stmt_productos = $conexion->prepare($consulta_productos);
-$stmt_productos->bind_param("i", $factura_id);
-$stmt_productos->execute();
-$stmt_productos->close();
+    // Eliminar productos asociados a la factura
+    $consulta_productos = "DELETE FROM productos_factura WHERE factura_id = ?";
+    $stmt_productos = $conexion->prepare($consulta_productos);
+    $stmt_productos->bind_param("i", $factura_id);
+    $stmt_productos->execute();
+    $stmt_productos->close();
 
-// Eliminar la factura
-$consulta_factura = "DELETE FROM facturas WHERE id = ?";
-$stmt_factura = $conexion->prepare($consulta_factura);
-$stmt_factura->bind_param("i", $factura_id);
-$stmt_factura->execute();
-$stmt_factura->close();
+    // Eliminar la factura
+    $consulta_factura = "DELETE FROM facturas WHERE id = ?";
+    $stmt_factura = $conexion->prepare($consulta_factura);
+    $stmt_factura->bind_param("i", $factura_id);
+    $stmt_factura->execute();
+    $stmt_factura->close();
+}
 
 // Consulta con JOIN para obtener facturas y datos del cliente
 $consulta_facturas = "
