@@ -20,7 +20,8 @@ $result = $conn->query($sql);
 // Verificar si hay resultados
 if ($result->num_rows > 0) {
     // Salida de los datos de cada fila
-    echo "<table class='table table-striped table-bordered'><thead class='thead-dark'><tr>
+    ?>
+    <table class='table table-striped table-bordered'><thead class='thead-dark'><tr>
         <th>Nombre</th>
         <th>Teléfono</th>
         <th>Empresa</th>
@@ -45,7 +46,9 @@ if ($result->num_rows > 0) {
             </td>
         </tr>
     <?php } ?>
-    </tbody></table>";
+    </tbody></table>
+    <?php
+
 } else {
     echo "0 resultados";
 }
