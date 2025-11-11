@@ -86,9 +86,7 @@ include "menu.php";
     window.onload = function() {
       const urlParams = new URLSearchParams(window.location.search);
       if (urlParams.has('deleted') && urlParams.get('deleted') === 'true') {
-        if (document.activeElement) {
-          document.activeElement.blur();
-        }
+        document.body.focus(); // Enfocar el body para quitar el foco de cualquier input
         // Opcional: Limpiar el parámetro 'deleted' de la URL
         history.replaceState({}, document.title, window.location.pathname);
       }
