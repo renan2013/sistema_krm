@@ -22,7 +22,21 @@ if ($_SERVER["REQUEST_METHOD"] == "POST" && isset($_POST['id_cliente'])) {
     // Obtener el id del cliente a eliminar desde POST
     $id = $_POST['id_cliente'];
 
-    // Utilizar una consulta preparada para evitar inyecciones SQL
+    // 1. Verificar si el cliente tiene facturas asociadas
+    $stmt_check = $conn->prepare("SELECT COUNT(*) FROM facturas WHERE cliente_id = ?");
+    $stmt_check->bind_param("i", $id);
+    $stmt_check->execute();
+    $stmt_check->bind_result($count_facturas);
+    $stmt_check->fetch();
+    $stmt_check->close();
+
+    if ($count_facturas > 0) {
+        // Si hay facturas asociadas, no se puede eliminar el cliente
+        header("Location: cliente.php?error=facturas_existentes");
+        exit();
+    }
+
+    // 2. Si no hay facturas asociadas, proceder con la eliminación del cliente
     $stmt = $conn->prepare("DELETE FROM clientes WHERE id_cliente = ?");
     $stmt->bind_param("i", $id); // "i" indica que el parámetro es un entero
 
@@ -31,10 +45,10 @@ if ($_SERVER["REQUEST_METHOD"] == "POST" && isset($_POST['id_cliente'])) {
         header("Location: cliente.php?deleted=true");
         exit(); // Asegurarse de que el script termine después de la redirección
     } else {
-        echo "Error al eliminar el registro: " . $stmt->error;
+        // En caso de otro error de eliminación
+        header("Location: cliente.php?error=delete_failed");
+        exit();
     }
-
-    $stmt->close();
 } else {
     echo "No se proporcionó un ID de cliente válido.";
 }

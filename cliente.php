@@ -94,6 +94,35 @@ include "menu.php";
       }
     };
   </script>
+  <script>
+    window.addEventListener('DOMContentLoaded', (event) => {
+      const urlParams = new URLSearchParams(window.location.search);
+      if (urlParams.has('error')) {
+        const errorType = urlParams.get('error');
+        let title = 'Error';
+        let text = 'Ha ocurrido un error al eliminar el cliente.';
+        let icon = 'error';
+
+        if (errorType === 'facturas_existentes') {
+          title = 'No se puede eliminar';
+          text = 'Este cliente tiene órdenes de compra asociadas. Elimine las órdenes de compra primero.';
+        } else if (errorType === 'delete_failed') {
+          title = 'Error de eliminación';
+          text = 'No se pudo eliminar el cliente. Inténtelo de nuevo.';
+        }
+
+        Swal.fire({
+          title: title,
+          text: text,
+          icon: icon,
+          confirmButtonText: 'Aceptar'
+        });
+
+        // Limpiar el parámetro 'error' de la URL
+        history.replaceState({}, document.title, window.location.pathname);
+      }
+    });
+  </script>
 </html>
 <?php
 include "footer.php";
