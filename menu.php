@@ -24,7 +24,7 @@
                     <a class="nav-link" href="https://renangalvan.net/sistema_krm/cliente.php">Registrar Cliente</a>
                 </li>
                 <li class="nav-item active">
-                    <a class="nav-link" href="https://renangalvan.net/sistema_krm/lista_cotizaciones.php">Lista órdenes de compra</a>
+                    <a class="nav-link" href="https://renangalvan.net/sistema_krm/lista_cotizaciones.php">Lista órdenes de compra...</a>
                 </li>
                 <!-- <li class="nav-item active">
                     <a class="nav-link" href="https://renangalvan.net/sistema_krm/categoria.php">Categoría</a>
