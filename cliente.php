@@ -82,6 +82,18 @@ include "menu.php";
       });
     }
   </script>
+  <script>
+    window.onload = function() {
+      const urlParams = new URLSearchParams(window.location.search);
+      if (urlParams.has('deleted') && urlParams.get('deleted') === 'true') {
+        if (document.activeElement) {
+          document.activeElement.blur();
+        }
+        // Opcional: Limpiar el parámetro 'deleted' de la URL
+        history.replaceState({}, document.title, window.location.pathname);
+      }
+    };
+  </script>
 </html>
 <?php
 include "footer.php";

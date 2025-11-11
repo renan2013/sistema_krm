@@ -28,7 +28,7 @@ if ($_SERVER["REQUEST_METHOD"] == "POST" && isset($_POST['id_cliente'])) {
 
     if ($stmt->execute()) {
         // Registro eliminado correctamente
-        header("Location: cliente.php");
+        header("Location: cliente.php?deleted=true");
         exit(); // Asegurarse de que el script termine después de la redirección
     } else {
         echo "Error al eliminar el registro: " . $stmt->error;
