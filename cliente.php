@@ -9,6 +9,7 @@ include "menu.php";
     <title>KRM</title>
     <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.1.3/css/bootstrap.min.css"> 
     <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/font-awesome/4.7.0/css/font-awesome.min.css">
+    <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
   </head>
   <body style="background-color: #FAFAFA;">
       <div class="container">
@@ -62,6 +63,25 @@ include "menu.php";
           </div>
           
   </body>
+  <script>
+    function confirmDelete(event, form) {
+      event.preventDefault(); // Prevenir el envío inmediato del formulario
+      Swal.fire({
+        title: '¿Estás seguro?',
+        text: "¡No podrás revertir esto!",
+        icon: 'warning',
+        showCancelButton: true,
+        confirmButtonColor: '#3085d6',
+        cancelButtonColor: '#d33',
+        confirmButtonText: 'Sí, eliminarlo!',
+        cancelButtonText: 'Cancelar'
+      }).then((result) => {
+        if (result.isConfirmed) {
+          form.submit(); // Si se confirma, enviar el formulario
+        }
+      });
+    }
+  </script>
 </html>
 <?php
 include "footer.php";
