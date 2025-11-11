@@ -39,10 +39,7 @@ if ($result->num_rows > 0) {
                 <a href="editar_cliente.php?id_cliente=<?php echo $row["id_cliente"]; ?>" class="btn btn-warning btn-sm">Editar</a>
             </td>
             <td>
-                <form method="post" action="eliminar_cliente.php" onsubmit="confirmDelete(event, this);">
-                    <input type="hidden" name="id_cliente" value="<?php echo $row["id_cliente"]; ?>">
-                    <input type="submit" class="btn btn-danger btn-sm" value="Eliminar">
-                </form>
+                <button type="button" class="btn btn-danger btn-sm" onclick="deleteClientAjax(<?php echo $row['id_cliente']; ?>, this.closest('tr'))">Eliminar</button>
             </td>
         </tr>
     <?php } ?>

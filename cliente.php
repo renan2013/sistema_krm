@@ -64,8 +64,7 @@ include "menu.php";
           
   </body>
   <script>
-    function confirmDelete(event, form) {
-      event.preventDefault(); // Prevenir el envío inmediato del formulario
+    function deleteClientAjax(clientId, rowElement) {
       Swal.fire({
         title: '¿Estás seguro?',
         text: "¡No podrás revertir esto!",
@@ -77,49 +76,53 @@ include "menu.php";
         cancelButtonText: 'Cancelar'
       }).then((result) => {
         if (result.isConfirmed) {
-          form.submit(); // Si se confirma, enviar el formulario
+          fetch('eliminar_cliente.php', {
+            method: 'POST',
+            headers: {
+              'Content-Type': 'application/x-www-form-urlencoded',
+            },
+            body: 'id_cliente=' + clientId
+          })
+          .then(response => response.json())
+          .then(data => {
+            if (data.success) {
+              Swal.fire(
+                '¡Eliminado!',
+                'El cliente ha sido eliminado.',
+                'success'
+              );
+              // Eliminar la fila de la tabla del DOM
+              rowElement.remove();
+            } else {
+              let title = 'Error';
+              let text = 'Ha ocurrido un error al eliminar el cliente.';
+              if (data.error === 'facturas_existentes') {
+                title = 'No se puede eliminar';
+                text = 'Este cliente tiene órdenes de compra asociadas. Elimine las órdenes de compra primero.';
+              } else if (data.error === 'delete_failed') {
+                title = 'Error de eliminación';
+                text = 'No se pudo eliminar el cliente. Inténtelo de nuevo.';
+              }
+              Swal.fire({
+                title: title,
+                text: text,
+                icon: 'error',
+                confirmButtonText: 'Aceptar'
+              });
+            }
+          })
+          .catch(error => {
+            console.error('Error en la solicitud AJAX:', error);
+            Swal.fire({
+              title: 'Error de conexión',
+              text: 'No se pudo conectar con el servidor para eliminar el cliente.',
+              icon: 'error',
+              confirmButtonText: 'Aceptar'
+            });
+          });
         }
       });
     }
-  </script>
-  <script>
-    window.onload = function() {
-      const urlParams = new URLSearchParams(window.location.search);
-      if (urlParams.has('deleted') && urlParams.get('deleted') === 'true') {
-        document.body.focus(); // Enfocar el body para quitar el foco de cualquier input
-        // Opcional: Limpiar el parámetro 'deleted' de la URL
-        history.replaceState({}, document.title, window.location.pathname);
-      }
-    };
-  </script>
-  <script>
-    window.addEventListener('DOMContentLoaded', (event) => {
-      const urlParams = new URLSearchParams(window.location.search);
-      if (urlParams.has('error')) {
-        const errorType = urlParams.get('error');
-        let title = 'Error';
-        let text = 'Ha ocurrido un error al eliminar el cliente.';
-        let icon = 'error';
-
-        if (errorType === 'facturas_existentes') {
-          title = 'No se puede eliminar';
-          text = 'Este cliente tiene órdenes de compra asociadas. Elimine las órdenes de compra primero.';
-        } else if (errorType === 'delete_failed') {
-          title = 'Error de eliminación';
-          text = 'No se pudo eliminar el cliente. Inténtelo de nuevo.';
-        }
-
-        Swal.fire({
-          title: title,
-          text: text,
-          icon: icon,
-          confirmButtonText: 'Aceptar'
-        });
-
-        // Limpiar el parámetro 'error' de la URL
-        history.replaceState({}, document.title, window.location.pathname);
-      }
-    });
   </script>
 </html>
 <?php

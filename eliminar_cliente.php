@@ -18,6 +18,9 @@ if ($conn->connect_error) {
 }
 
 // Verificar si se ha enviado el formulario con el id_cliente por POST
+header('Content-Type: application/json');
+
+// Verificar si se ha enviado el formulario con el id_cliente por POST
 if ($_SERVER["REQUEST_METHOD"] == "POST" && isset($_POST['id_cliente'])) {
     // Obtener el id del cliente a eliminar desde POST
     $id = $_POST['id_cliente'];
@@ -32,7 +35,7 @@ if ($_SERVER["REQUEST_METHOD"] == "POST" && isset($_POST['id_cliente'])) {
 
     if ($count_facturas > 0) {
         // Si hay facturas asociadas, no se puede eliminar el cliente
-        header("Location: cliente.php?error=facturas_existentes");
+        echo json_encode(['success' => false, 'error' => 'facturas_existentes']);
         exit();
     }
 
@@ -42,17 +45,15 @@ if ($_SERVER["REQUEST_METHOD"] == "POST" && isset($_POST['id_cliente'])) {
 
     if ($stmt->execute()) {
         // Registro eliminado correctamente
-        header("Location: cliente.php?deleted=true");
-        exit(); // Asegurarse de que el script termine después de la redirección
+        echo json_encode(['success' => true]);
+        exit();
     } else {
         // En caso de otro error de eliminación
-        header("Location: cliente.php?error=delete_failed");
+        echo json_encode(['success' => false, 'error' => 'delete_failed']);
         exit();
     }
 } else {
-    echo "No se proporcionó un ID de cliente válido.";
+    echo json_encode(['success' => false, 'error' => 'invalid_id']);
+    exit();
 }
-
-// Cerrar conexión
-$conn->close();
 ?>
