@@ -57,8 +57,41 @@ $result = $conn->query($sql);
         <div class="form-group row">
             <label for="nombre_producto" class="col-4 col-form-label">Producto</label> 
             <div class="col-8">
-            <input  name="nombre_producto" type="text" class="form-control" >
-            <br/>
+            <input  name="nombre_producto" type="text" class="form-control" required="required">
+            </div>
+        </div>
+        <div class="form-group row">
+            <label for="ancho" class="col-4 col-form-label">Ancho (cm)</label> 
+            <div class="col-8">
+            <input name="ancho" type="number" step="0.01" class="form-control">
+            </div>
+        </div>
+        <div class="form-group row">
+            <label for="alto" class="col-4 col-form-label">Alto (cm)</label> 
+            <div class="col-8">
+            <input name="alto" type="number" step="0.01" class="form-control">
+            </div>
+        </div>
+        <div class="form-group row">
+            <label for="grosor" class="col-4 col-form-label">Grosor (cm)</label> 
+            <div class="col-8">
+            <input name="grosor" type="number" step="0.01" class="form-control">
+            </div>
+        </div>
+        <div class="form-group row">
+            <label for="color" class="col-4 col-form-label">Color</label> 
+            <div class="col-8">
+            <input name="color" type="text" class="form-control">
+            </div>
+        </div>
+        <div class="form-group row">
+            <label for="precio_unitario" class="col-4 col-form-label">Precio Unitario</label> 
+            <div class="col-8">
+            <input name="precio_unitario" type="number" step="0.01" class="form-control">
+            </div>
+        </div>
+        <div class="form-group row">
+            <div class="offset-4 col-8">
             <button name="submit" type="submit" class="btn btn-success">Registrar Producto</button>
             </div>
         </div>
