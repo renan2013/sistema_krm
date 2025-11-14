@@ -14,31 +14,27 @@
         </button>
         <div class="collapse navbar-collapse" id="navbarNav">
             <ul class="navbar-nav">
-            <li class="nav-item active">
-                    <a class="nav-link" href="https://renangalvan.net/sistema_krm/index.php">Inicio<span class="sr-only">(actual)</span></a>
+                <li class="nav-item active">
+                    <a class="nav-link" href="index.php">Inicio<span class="sr-only">(actual)</span></a>
                 </li>
                 <li class="nav-item active">
-                    <a class="nav-link" href="https://renangalvan.net/sistema_krm/pdf/formulario_productos_2.php">Crear Orden de Compra<span class="sr-only">(actual)</span></a>
+                    <a class="nav-link" href="formulario_productos_2.php">Crear Orden de Compra<span class="sr-only">(actual)</span></a>
                 </li>
                 <li class="nav-item active">
-                    <a class="nav-link" href="https://renangalvan.net/sistema_krm/cliente.php">Registrar Cliente</a>
+                    <a class="nav-link" href="cliente.php">Registrar Cliente</a>
                 </li>
                 <li class="nav-item active">
-                    <a class="nav-link" href="https://renangalvan.net/sistema_krm/lista_cotizaciones.php">Lista órdenes de compra</a>
+                    <a class="nav-link" href="lista_cotizaciones.php">Lista órdenes de compra</a>
                 </li>
-                <!-- <li class="nav-item active">
-                    <a class="nav-link" href="https://renangalvan.net/sistema_krm/categoria.php">Categoría</a>
+                <li class="nav-item dropdown">
+                    <a class="nav-link dropdown-toggle" href="#" id="navbarDropdown" role="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+                        Gestionar
+                    </a>
+                    <div class="dropdown-menu" aria-labelledby="navbarDropdown">
+                        <a class="dropdown-item" href="categoria.php">Categorías</a>
+                        <a class="dropdown-item" href="producto.php">Productos</a>
+                    </div>
                 </li>
-                <li class="nav-item active">
-                    <a class="nav-link" href="https://renangalvan.net/sistema_krm/producto.php">Producto</a>
-                </li>
-                
-                <li class="nav-item active">
-                    <a class="nav-link" href="https://renangalvan.net/sistema_krm/pdf/formulario_productos_3.php">Cotización</a>
-                </li> -->
-              
-              
-               
             </ul>
         </div>
     </nav>
