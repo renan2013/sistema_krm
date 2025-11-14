@@ -85,35 +85,82 @@ $result = $conn->query($sql);
         }
     </style>
     <script>
+        document.addEventListener('DOMContentLoaded', function() {
+            const categoriaSelect = document.getElementById('categoria');
+            const productoSelect = document.getElementById('descripcion');
+
+            // Cargar categorías al iniciar
+            fetch('api_obtener_categorias.php')
+                .then(response => response.json())
+                .then(data => {
+                    data.forEach(categoria => {
+                        const option = document.createElement('option');
+                        option.value = categoria.id_categoria;
+                        option.textContent = categoria.nombre_categoria;
+                        categoriaSelect.appendChild(option);
+                    });
+                })
+                .catch(error => console.error('Error al cargar categorías:', error));
+
+            // Cargar productos cuando se selecciona una categoría
+            categoriaSelect.addEventListener('change', function() {
+                const categoriaId = this.value;
+                productoSelect.innerHTML = '<option value="" disabled selected>Seleccione un producto</option>';
+                productoSelect.disabled = true;
+
+                if (categoriaId) {
+                    fetch(`api_obtener_productos.php?id_categoria=${categoriaId}`)
+                        .then(response => response.json())
+                        .then(data => {
+                            if (data.length > 0) {
+                                data.forEach(producto => {
+                                    const option = document.createElement('option');
+                                    option.value = producto.nombre_producto;
+                                    option.textContent = producto.nombre_producto;
+                                    productoSelect.appendChild(option);
+                                });
+                                productoSelect.disabled = false;
+                            } else {
+                                productoSelect.innerHTML = '<option value="" disabled selected>No hay productos en esta categoría</option>';
+                            }
+                        })
+                        .catch(error => console.error('Error al cargar productos:', error));
+                }
+            });
+        });
+
         let productos = [];
 
         function agregarProducto() {
-    const descripcion = document.getElementById('descripcion').value;
-    const ancho = parseFloat(document.getElementById('ancho').value);
-    const alto = parseFloat(document.getElementById('alto').value);
-    const grosor = parseFloat(document.getElementById('grosor').value);
-    const cantidad = parseFloat(document.getElementById('cantidad').value);
-    const precioUnitario = parseFloat(document.getElementById('precio_unitario').value);
-    const total = cantidad * precioUnitario;
+            const productoSelect = document.getElementById('descripcion');
+            const descripcion = productoSelect.options[productoSelect.selectedIndex].text;
+            const ancho = parseFloat(document.getElementById('ancho').value) || 0;
+            const alto = parseFloat(document.getElementById('alto').value) || 0;
+            const grosor = parseFloat(document.getElementById('grosor').value) || 0;
+            const cantidad = parseFloat(document.getElementById('cantidad').value);
+            const precioUnitario = parseFloat(document.getElementById('precio_unitario').value);
+            const total = cantidad * precioUnitario;
 
-    productos.push({ descripcion, ancho, alto, grosor, cantidad, precioUnitario, total });
+            if (!descripcion || isNaN(cantidad) || isNaN(precioUnitario)) {
+                alert('Por favor, complete todos los campos requeridos.');
+                return;
+            }
 
-    actualizarVistaPrevia();
-
-    // Limpiar los campos del formulario
-    limpiarCampos();
-}
-
-    
+            productos.push({ descripcion, ancho, alto, grosor, cantidad, precioUnitario, total });
+            actualizarVistaPrevia();
+            limpiarCampos();
+        }
 
         function limpiarCampos() {
-    document.getElementById('descripcion').value = "";
-    document.getElementById('ancho').value = "";
-    document.getElementById('alto').value = "";
-    document.getElementById('grosor').value = "";
-    document.getElementById('cantidad').value = "";
-    document.getElementById('precio_unitario').value = "";
-}
+            document.getElementById('categoria').selectedIndex = 0;
+            document.getElementById('descripcion').innerHTML = '<option value="" disabled selected>Seleccione una categoría primero</option>';
+            document.getElementById('descripcion').disabled = true;
+            document.getElementById('ancho').value = "";
+            document.getElementById('alto').value = "";
+            document.getElementById('grosor').selectedIndex = 0;
+            document.getElementById('cantidad').value = "";
+            document.getElementById('precio_unitario').value = "";
+        }
 
         function actualizarVistaPrevia() {
             let tabla = document.getElementById('tabla_productos');
@@ -142,8 +189,6 @@ $result = $conn->query($sql);
                 subtotal += producto.total;
             });
 
-            
-
             let tablaFoot = document.getElementById('tabla_footer');
             tablaFoot.innerHTML = ''; // Limpiar footer
             const rowFooter = tablaFoot.insertRow();
@@ -162,33 +207,33 @@ $result = $conn->query($sql);
         }
 
         function guardarFactura() {
-    const cliente_id = document.getElementById('cliente').value;  // El ID del cliente
+            const cliente_id = document.getElementById('cliente').value;
 
-    const datos = {
-        cliente_id,  // Cambié el nombre de la variable para que sea más claro
-        productos
-    };
+            if (!cliente_id || productos.length === 0) {
+                alert('Debe seleccionar un cliente y agregar al menos un producto.');
+                return;
+            }
 
-    // Imprimir los datos antes de enviarlos para asegurarse que estén correctos
-    console.log(datos);
+            const datos = {
+                cliente_id,
+                productos
+            };
 
-    fetch('guardar_factura.php', {
-        method: 'POST',
-        headers: { 'Content-Type': 'application/json' },
-        body: JSON.stringify(datos)
-    })
-    .then(response => response.json())
-    .then(data => {
-        if (data.success) {
-            // Redirigir a la página de éxito, pasando el ID de la factura
-            window.location.href = 'factura_exito.php?factura_id=' + data.factura_id;
-        } else {
-            alert('Error: ' + data.message);
+            fetch('guardar_factura.php', {
+                method: 'POST',
+                headers: { 'Content-Type': 'application/json' },
+                body: JSON.stringify(datos)
+            })
+            .then(response => response.json())
+            .then(data => {
+                if (data.success) {
+                    window.location.href = 'factura_exito.php?factura_id=' + data.factura_id;
+                } else {
+                    alert('Error: ' + data.message);
+                }
+            })
+            .catch(error => console.error('Error:', error));
         }
-    })
-    .catch(error => console.error('Error:', error));
-}
-
     </script>
 </head>
 <body>
@@ -213,21 +258,22 @@ $result = $conn->query($sql);
                 </div>
             </div>
             <div class="form-group row">
-                <label for="descripcion" class="col-md-4 col-form-label">Producto:</label> 
-                
-                    
-                    <div class="col-md-8">
-                    
-                    <select id="descripcion" name="descripcion" class="custom-select">
-                    <option value="" disabled selected>Seleccione el producto</option>
-                    <option value="Tabla">Tabla</option>
-                    <option value="Escamador">Escamador</option>
-                    <option value="Rayador">Rayador</option>
-                    <option value="Rayador">Empujador</option>
-                    
-                </select>
+                <label for="categoria" class="col-md-4 col-form-label">Categoría:</label>
+                <div class="col-md-8">
+                    <select id="categoria" name="categoria" class="custom-select" required>
+                        <option value="" disabled selected>Seleccione una categoría</option>
+                        <!-- Las categorías se cargarán aquí dinámicamente -->
+                    </select>
                 </div>
-               
+            </div>
+            <div class="form-group row">
+                <label for="descripcion" class="col-md-4 col-form-label">Producto:</label>
+                <div class="col-md-8">
+                    <select id="descripcion" name="descripcion" class="custom-select" required disabled>
+                        <option value="" disabled selected>Seleccione una categoría primero</option>
+                        <!-- Los productos se cargarán aquí dinámicamente -->
+                    </select>
+                </div>
             </div>
             
             <div class="form-group row">
