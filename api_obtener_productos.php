@@ -5,7 +5,7 @@ include 'conexion.php';
 $id_categoria = isset($_GET['id_categoria']) ? (int)$_GET['id_categoria'] : 0;
 
 if ($id_categoria > 0) {
-    $sql = "SELECT id_producto, nombre_producto FROM productos WHERE id_categoria = ? ORDER BY nombre_producto ASC";
+    $sql = "SELECT id_producto, nombre_producto, ancho, alto, grosor, color, precio_unitario FROM productos WHERE id_categoria = ? ORDER BY nombre_producto ASC";
     $stmt = $conn->prepare($sql);
     $stmt->bind_param("i", $id_categoria);
     $stmt->execute();

@@ -17,7 +17,7 @@ if ($conn->connect_error) {
 
 
 
-$sql= "SELECT productos.id_producto,nombre_producto, categorias.nombre_categoria 
+$sql= "SELECT productos.id_producto, nombre_producto, categorias.nombre_categoria, productos.ancho, productos.alto, productos.grosor, productos.color, productos.precio_unitario 
 FROM productos   
 INNER JOIN categorias  
 ON productos.id_categoria = categorias.id_categoria
@@ -33,6 +33,11 @@ if ($result->num_rows > 0) {
     echo "<table class='table table-striped table-bordered'><thead class='thead-dark'><tr>
         <th>Categoría</th>
         <th>Producto</th>
+        <th>Ancho</th>
+        <th>Alto</th>
+        <th>Grosor</th>
+        <th>Color</th>
+        <th>Precio Unitario</th>
         
         <th>Editar</th>
         <th>Eliminar</th>
@@ -42,6 +47,11 @@ if ($result->num_rows > 0) {
         echo "<tr>
                 <td>" . ucfirst($row["nombre_categoria"]). "</td>
                 <td>" . ucfirst($row["nombre_producto"]). "</td>
+                <td>" . ($row["ancho"] ?? 'N/A'). "</td>
+                <td>" . ($row["alto"] ?? 'N/A'). "</td>
+                <td>" . ($row["grosor"] ?? 'N/A'). "</td>
+                <td>" . ($row["color"] ?? 'N/A'). "</td>
+                <td>" . ($row["precio_unitario"] ?? 'N/A'). "</td>
                
                 <td>
                     <form method='get' action='editar_producto.php'>

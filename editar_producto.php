@@ -6,7 +6,7 @@ include 'conexion.php';
 $id_producto = $_GET['id_producto'];
 
 // --- Obtener datos del producto actual ---
-$sql_producto = "SELECT nombre_producto, id_categoria FROM productos WHERE id_producto = ?";
+$sql_producto = "SELECT nombre_producto, id_categoria, ancho, alto, grosor, color, precio_unitario FROM productos WHERE id_producto = ?";
 $stmt_producto = $conn->prepare($sql_producto);
 $stmt_producto->bind_param("i", $id_producto);
 $stmt_producto->execute();
@@ -14,6 +14,11 @@ $result_producto = $stmt_producto->get_result();
 $producto = $result_producto->fetch_assoc();
 $nombre_producto = $producto['nombre_producto'];
 $id_categoria_actual = $producto['id_categoria'];
+$ancho_actual = $producto['ancho'];
+$alto_actual = $producto['alto'];
+$grosor_actual = $producto['grosor'];
+$color_actual = $producto['color'];
+$precio_unitario_actual = $producto['precio_unitario'];
 $stmt_producto->close();
 
 // --- Obtener todas las categorías ---
@@ -55,6 +60,37 @@ $result_categorias = $conn->query($sql_categorias);
                         }
                         ?>
                     </select>
+                </div>
+            </div>
+
+            <div class="form-group row">
+                <label for="ancho" class="col-4 col-form-label">Ancho (cm)</label> 
+                <div class="col-8">
+                    <input id="ancho" name="ancho" type="number" step="0.01" class="form-control" value="<?php echo htmlspecialchars($ancho_actual); ?>">
+                </div>
+            </div>
+            <div class="form-group row">
+                <label for="alto" class="col-4 col-form-label">Alto (cm)</label> 
+                <div class="col-8">
+                    <input id="alto" name="alto" type="number" step="0.01" class="form-control" value="<?php echo htmlspecialchars($alto_actual); ?>">
+                </div>
+            </div>
+            <div class="form-group row">
+                <label for="grosor" class="col-4 col-form-label">Grosor (cm)</label> 
+                <div class="col-8">
+                    <input id="grosor" name="grosor" type="number" step="0.01" class="form-control" value="<?php echo htmlspecialchars($grosor_actual); ?>">
+                </div>
+            </div>
+            <div class="form-group row">
+                <label for="color" class="col-4 col-form-label">Color</label> 
+                <div class="col-8">
+                    <input id="color" name="color" type="text" class="form-control" value="<?php echo htmlspecialchars($color_actual); ?>">
+                </div>
+            </div>
+            <div class="form-group row">
+                <label for="precio_unitario" class="col-4 col-form-label">Precio Unitario</label> 
+                <div class="col-8">
+                    <input id="precio_unitario" name="precio_unitario" type="number" step="0.01" class="form-control" value="<?php echo htmlspecialchars($precio_unitario_actual); ?>">
                 </div>
             </div>
 

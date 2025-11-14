@@ -88,6 +88,13 @@ $result = $conn->query($sql);
         document.addEventListener('DOMContentLoaded', function() {
             const categoriaSelect = document.getElementById('categoria');
             const productoSelect = document.getElementById('descripcion');
+            const anchoInput = document.getElementById('ancho');
+            const altoInput = document.getElementById('alto');
+            const grosorSelect = document.getElementById('grosor');
+            const colorInput = document.getElementById('color');
+            const precioUnitarioInput = document.getElementById('precio_unitario');
+
+            let productsData = {}; // Para almacenar los detalles completos de los productos
 
             // Cargar categorías al iniciar
             fetch('api_obtener_categorias.php')
@@ -107,6 +114,13 @@ $result = $conn->query($sql);
                 const categoriaId = this.value;
                 productoSelect.innerHTML = '<option value="" disabled selected>Seleccione un producto</option>';
                 productoSelect.disabled = true;
+                // Limpiar campos de detalles del producto al cambiar de categoría
+                anchoInput.value = "";
+                altoInput.value = "";
+                grosorSelect.selectedIndex = 0;
+                colorInput.value = "";
+                precioUnitarioInput.value = "";
+                productsData = {}; // Limpiar datos de productos anteriores
 
                 if (categoriaId) {
                     fetch(`api_obtener_productos.php?id_categoria=${categoriaId}`)
@@ -114,8 +128,9 @@ $result = $conn->query($sql);
                         .then(data => {
                             if (data.length > 0) {
                                 data.forEach(producto => {
+                                    productsData[producto.id_producto] = producto; // Almacenar el objeto completo
                                     const option = document.createElement('option');
-                                    option.value = producto.nombre_producto;
+                                    option.value = producto.id_producto; // Usar id_producto como valor
                                     option.textContent = producto.nombre_producto;
                                     productoSelect.appendChild(option);
                                 });
@@ -127,26 +142,63 @@ $result = $conn->query($sql);
                         .catch(error => console.error('Error al cargar productos:', error));
                 }
             });
+
+            // Rellenar campos al seleccionar un producto
+            productoSelect.addEventListener('change', function() {
+                const selectedProductId = this.value;
+                const selectedProduct = productsData[selectedProductId];
+
+                if (selectedProduct) {
+                    anchoInput.value = selectedProduct.ancho !== null ? selectedProduct.ancho : "";
+                    altoInput.value = selectedProduct.alto !== null ? selectedProduct.alto : "";
+                    // Para el grosor, buscar la opción que coincida con el valor
+                    if (selectedProduct.grosor !== null) {
+                        let grosorFound = false;
+                        for (let i = 0; i < grosorSelect.options.length; i++) {
+                            if (parseFloat(grosorSelect.options[i].value) === parseFloat(selectedProduct.grosor)) {
+                                grosorSelect.selectedIndex = i;
+                                grosorFound = true;
+                                break;
+                            }
+                        }
+                        if (!grosorFound) {
+                            grosorSelect.selectedIndex = 0; // Seleccionar la opción por defecto si no se encuentra
+                        }
+                    } else {
+                        grosorSelect.selectedIndex = 0; // Seleccionar la opción por defecto si es null
+                    }
+                    colorInput.value = selectedProduct.color !== null ? selectedProduct.color : "";
+                    precioUnitarioInput.value = selectedProduct.precio_unitario !== null ? selectedProduct.precio_unitario : "";
+                } else {
+                    // Limpiar si no se encuentra el producto (ej. opción por defecto)
+                    anchoInput.value = "";
+                    altoInput.value = "";
+                    grosorSelect.selectedIndex = 0;
+                    colorInput.value = "";
+                    precioUnitarioInput.value = "";
+                }
+            });
         });
 
         let productos = [];
 
         function agregarProducto() {
             const productoSelect = document.getElementById('descripcion');
-            const descripcion = productoSelect.options[productoSelect.selectedIndex].text;
+            const descripcion = productoSelect.options[productoSelect.selectedIndex].textContent; // Obtener el texto visible
             const ancho = parseFloat(document.getElementById('ancho').value) || 0;
             const alto = parseFloat(document.getElementById('alto').value) || 0;
             const grosor = parseFloat(document.getElementById('grosor').value) || 0;
+            const color = document.getElementById('color').value;
             const cantidad = parseFloat(document.getElementById('cantidad').value);
             const precioUnitario = parseFloat(document.getElementById('precio_unitario').value);
             const total = cantidad * precioUnitario;
 
             if (!descripcion || isNaN(cantidad) || isNaN(precioUnitario)) {
-                alert('Por favor, complete todos los campos requeridos.');
+                alert('Por favor, complete todos los campos requeridos (Producto, Cantidad, Precio Unitario).');
                 return;
             }
 
-            productos.push({ descripcion, ancho, alto, grosor, cantidad, precioUnitario, total });
+            productos.push({ descripcion, ancho, alto, grosor, color, cantidad, precioUnitario, total });
             actualizarVistaPrevia();
             limpiarCampos();
         }
@@ -158,6 +210,7 @@ $result = $conn->query($sql);
             document.getElementById('ancho').value = "";
             document.getElementById('alto').value = "";
             document.getElementById('grosor').selectedIndex = 0;
+            document.getElementById('color').value = "";
             document.getElementById('cantidad').value = "";
             document.getElementById('precio_unitario').value = "";
         }
