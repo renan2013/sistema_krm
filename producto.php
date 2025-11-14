@@ -111,9 +111,3 @@ $result = $conn->query($sql);
       
     </form>
           </div>
-          
-  </body>
-</html>
-<?php
-include "footer.php";
-?>
