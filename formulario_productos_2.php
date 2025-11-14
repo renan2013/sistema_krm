@@ -1,5 +1,5 @@
 <?php
-include "../menu.php";
+include "menu.php";
 ?>
 <?php
 // Datos de conexión a la base de datos
