@@ -272,7 +272,7 @@ $result = $conn->query($sql);
                 productos
             };
 
-            fetch('guardar_factura.php', {
+            fetch('pdf/guardar_factura.php', {
                 method: 'POST',
                 headers: { 'Content-Type': 'application/json' },
                 body: JSON.stringify(datos)
