@@ -17,7 +17,7 @@ if ($conn->connect_error) {
 }
 
 // Consulta SQL para obtener los clientes
-$sql = "SELECT id_cliente, nombre FROM clientes";
+$sql = "SELECT id_cliente, empresa FROM clientes";
 $result = $conn->query($sql);
 ?>
 <!DOCTYPE html>
