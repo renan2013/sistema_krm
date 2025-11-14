@@ -362,9 +362,9 @@ $result = $conn->query($sql);
                 </div>
             </div>
             <div class="form-group row">
-                <label for="cantidad" class="col-md-4 col-form-label">Color:</label> 
+                <label for="color" class="col-md-4 col-form-label">Color:</label> 
                 <div class="col-md-8">
-                    <input id="cantidad" name="cantidad" type="number" class="form-control" required>
+                    <input id="color" name="color" type="text" class="form-control">
                 </div>
             </div>
             <div class="form-group row">
