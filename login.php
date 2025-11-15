@@ -112,5 +112,6 @@ if (isset($_SESSION["loggedin"]) && $_SESSION["loggedin"] === true) {
             </div>
         </form>
     </div>
+    Designed and developed by renangalvan.net - San José, Costa Rica - (506)87777849
 </body>
 </html>
