@@ -1,4 +1,12 @@
 <?php
+session_start();
+
+// Verificar si el usuario está logueado, si no, redirigir a la página de login
+if (!isset($_SESSION["loggedin"]) || $_SESSION["loggedin"] !== true) {
+    header("location: login.php");
+    exit;
+}
+
 $base_url = "https://renangalvan.net/sistema_krm/";
 ?>
 <!DOCTYPE html>
@@ -16,7 +24,7 @@ $base_url = "https://renangalvan.net/sistema_krm/";
             <span class="navbar-toggler-icon"></span>
         </button>
         <div class="collapse navbar-collapse" id="navbarNav">
-            <ul class="navbar-nav">
+            <ul class="navbar-nav mr-auto">
                 <li class="nav-item active">
                     <a class="nav-link" href="<?php echo $base_url; ?>index.php">Inicio<span class="sr-only">(actual)</span></a>
                 </li>
@@ -37,6 +45,11 @@ $base_url = "https://renangalvan.net/sistema_krm/";
                         <a class="dropdown-item" href="<?php echo $base_url; ?>categoria.php">Categorías</a>
                         <a class="dropdown-item" href="<?php echo $base_url; ?>producto.php">Productos</a>
                     </div>
+                </li>
+            </ul>
+            <ul class="navbar-nav">
+                <li class="nav-item">
+                    <a class="nav-link" href="logout.php">Cerrar Sesión</a>
                 </li>
             </ul>
         </div>

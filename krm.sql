@@ -3,7 +3,7 @@
 -- https://www.phpmyadmin.net/
 --
 -- Servidor: 127.0.0.1:3306
--- Tiempo de generación: 14-11-2025 a las 17:52:18
+-- Tiempo de generación: 15-11-2025 a las 18:06:59
 -- Versión del servidor: 11.8.3-MariaDB-log
 -- Versión de PHP: 7.2.34
 
@@ -37,11 +37,7 @@ CREATE TABLE `categorias` (
 --
 
 INSERT INTO `categorias` (`id_categoria`, `nombre_categoria`) VALUES
-(7, 'Obra Gris'),
-(8, 'Electricidad'),
-(9, 'Cielo Razo'),
-(10, 'Mano de Obra'),
-(11, 'Escamadores');
+(12, 'Lista de productos fijos');
 
 -- --------------------------------------------------------
 
@@ -116,7 +112,11 @@ CREATE TABLE `facturas` (
 --
 
 INSERT INTO `facturas` (`id`, `cliente_id`, `fecha`) VALUES
-(119, 34, '2025-11-11 13:47:49');
+(119, 34, '2025-11-11 13:47:49'),
+(120, 34, '2025-11-14 14:57:56'),
+(121, 34, '2025-11-14 15:48:37'),
+(122, 34, '2025-11-14 23:20:07'),
+(123, 34, '2025-11-15 07:40:36');
 
 -- --------------------------------------------------------
 
@@ -149,20 +149,35 @@ CREATE TABLE `modelo` (
 CREATE TABLE `productos` (
   `id_producto` int(10) NOT NULL,
   `nombre_producto` varchar(100) NOT NULL,
-  `id_categoria` int(10) NOT NULL
+  `id_categoria` int(10) NOT NULL,
+  `ancho` decimal(10,2) DEFAULT NULL,
+  `alto` decimal(10,2) DEFAULT NULL,
+  `grosor` decimal(10,2) DEFAULT NULL,
+  `color` varchar(50) DEFAULT NULL,
+  `precio_unitario` decimal(10,2) DEFAULT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
 
 --
 -- Volcado de datos para la tabla `productos`
 --
 
-INSERT INTO `productos` (`id_producto`, `nombre_producto`, `id_categoria`) VALUES
-(15, 'Varilla nro 3', 7),
-(16, 'mt3 Arena', 7),
-(17, 'Cable nro 12', 8),
-(18, 'Toma corriente doble', 8),
-(19, 'Tablilla PVC', 9),
-(20, 'Mano de Obra - Electricidad', 10);
+INSERT INTO `productos` (`id_producto`, `nombre_producto`, `id_categoria`, `ancho`, `alto`, `grosor`, `color`, `precio_unitario`) VALUES
+(22, 'Tabla Nro 1', 12, 18.00, 30.00, 0.50, NULL, 2500.00),
+(23, 'Tabla', 13, NULL, NULL, NULL, NULL, NULL),
+(24, 'Tabla Nro 2', 12, 23.00, 30.00, 0.50, NULL, 2950.00),
+(25, 'Tabla Nro 3', 12, 23.00, 36.00, 0.50, NULL, 3850.00),
+(26, 'Tabla Nro 4', 12, 30.00, 36.00, 0.50, NULL, 4950.00),
+(27, 'Tabla Nro 5', 12, 30.00, 50.00, 0.50, NULL, 7000.00),
+(28, 'Tabla Nro 6', 12, 36.00, 45.00, 0.50, NULL, 7500.00),
+(29, 'Tabla Nro 7', 12, 45.00, 50.00, 0.50, NULL, 11000.00),
+(30, 'Tabla Nro 8', 12, 74.00, 30.00, 0.50, NULL, 11000.00),
+(31, 'Tabla Nro 9', 12, 74.00, 45.00, 0.50, NULL, 17500.00),
+(32, 'Tabla Nro 10', 12, 90.00, 36.00, 0.50, NULL, 17500.00),
+(33, 'Tabla Nro 11', 12, 150.00, 30.00, 0.50, NULL, 23000.00),
+(34, 'Tabla Nro 12', 12, 150.00, 45.00, 0.50, NULL, 35000.00),
+(35, 'Tabla Nro 13', 12, 150.00, 92.00, 0.50, NULL, 69000.00),
+(36, 'Empujador de carne', 12, NULL, NULL, NULL, NULL, 17000.00),
+(37, 'Descamador', 12, NULL, NULL, NULL, NULL, 2300.00);
 
 -- --------------------------------------------------------
 
@@ -206,7 +221,16 @@ CREATE TABLE `productos_factura` (
 --
 
 INSERT INTO `productos_factura` (`id`, `factura_id`, `descripcion`, `ancho`, `alto`, `grosor`, `cantidad`, `color`, `precio_unitario`, `total`) VALUES
-(99, 119, 'Tabla', 50.00, 150.00, 1.00, 10, 'Blanco', 100000.00, 1000000.00);
+(99, 119, 'Tabla', 50.00, 150.00, 1.00, 10, 'Blanco', 100000.00, 1000000.00),
+(100, 120, 'Tabla Nro 1', 50.00, 50.00, 1.00, 10, 'Blanco', 20000.00, 200000.00),
+(101, 121, 'Fierro', 45.00, 45.00, 1.00, 45, 'Blanco', 20000.00, 900000.00),
+(102, 122, 'Tabla Nro 1', 50.00, 50.00, 1.00, 20, 'Blanco', 20000.00, 400000.00),
+(103, 123, 'Tabla Nro 1', 18.00, 30.00, 0.50, 5, '', 2500.00, 12500.00),
+(104, 123, 'Tabla Nro 2', 23.00, 30.00, 0.50, 15, '', 2950.00, 44250.00),
+(105, 123, 'Tabla Nro 3', 23.00, 36.00, 0.50, 8, '', 3850.00, 30800.00),
+(106, 123, 'Tabla Nro 4', 30.00, 36.00, 0.50, 5, '', 4950.00, 24750.00),
+(107, 123, 'Tabla Nro 7', 45.00, 50.00, 0.50, 10, '', 11000.00, 110000.00),
+(108, 123, 'Descamador', 0.00, 0.00, 0.00, 20, '', 2300.00, 46000.00);
 
 -- --------------------------------------------------------
 
@@ -255,23 +279,18 @@ INSERT INTO `tabla_datos` (`id_tabla`, `grosor`, `costo_cm_cuadrado`, `color`, `
 --
 
 CREATE TABLE `usuarios` (
-  `id_usuario` int(10) NOT NULL,
+  `id_usuario` int(11) NOT NULL,
   `nombre` varchar(100) NOT NULL,
   `email` varchar(100) NOT NULL,
-  `mensaje` varchar(200) NOT NULL
+  `password` varchar(255) NOT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
 
 --
 -- Volcado de datos para la tabla `usuarios`
 --
 
-INSERT INTO `usuarios` (`id_usuario`, `nombre`, `email`, `mensaje`) VALUES
-(1, 'Renan', 'renangalvan@gmail.com', 'hola'),
-(2, 'Renan', 'renangalvan@gmail.com', 'hola'),
-(3, 'Renan', 'renangalvan@gmail.com', 'hola'),
-(4, 'Renan', 'renangalvan@gmail.com', 'hola'),
-(5, 'Alberto', 'renangalvan@gmail.com', 'chao'),
-(6, 'Manuel', 'renangalvan@gmail.com', 'manuel');
+INSERT INTO `usuarios` (`id_usuario`, `nombre`, `email`, `password`) VALUES
+(1, 'Administrador', 'admin@krm.com', '$2y$10$I2jT4.V0.f2/iA/2b.eJ9eEC2TylsExh2wt2s20iGz5Etf.1dI9I6');
 
 --
 -- Índices para tablas volcadas
@@ -346,7 +365,8 @@ ALTER TABLE `tabla_datos`
 -- Indices de la tabla `usuarios`
 --
 ALTER TABLE `usuarios`
-  ADD PRIMARY KEY (`id_usuario`);
+  ADD PRIMARY KEY (`id_usuario`),
+  ADD UNIQUE KEY `email` (`email`);
 
 --
 -- AUTO_INCREMENT de las tablas volcadas
@@ -356,7 +376,7 @@ ALTER TABLE `usuarios`
 -- AUTO_INCREMENT de la tabla `categorias`
 --
 ALTER TABLE `categorias`
-  MODIFY `id_categoria` int(10) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=12;
+  MODIFY `id_categoria` int(10) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=14;
 
 --
 -- AUTO_INCREMENT de la tabla `clientes`
@@ -380,7 +400,7 @@ ALTER TABLE `cotizaciones`
 -- AUTO_INCREMENT de la tabla `facturas`
 --
 ALTER TABLE `facturas`
-  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=120;
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=124;
 
 --
 -- AUTO_INCREMENT de la tabla `materiales`
@@ -392,7 +412,7 @@ ALTER TABLE `materiales`
 -- AUTO_INCREMENT de la tabla `productos`
 --
 ALTER TABLE `productos`
-  MODIFY `id_producto` int(10) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=21;
+  MODIFY `id_producto` int(10) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=38;
 
 --
 -- AUTO_INCREMENT de la tabla `productos_cotizacion`
@@ -404,7 +424,7 @@ ALTER TABLE `productos_cotizacion`
 -- AUTO_INCREMENT de la tabla `productos_factura`
 --
 ALTER TABLE `productos_factura`
-  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=100;
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=109;
 
 --
 -- AUTO_INCREMENT de la tabla `tabla_datos`
@@ -416,7 +436,7 @@ ALTER TABLE `tabla_datos`
 -- AUTO_INCREMENT de la tabla `usuarios`
 --
 ALTER TABLE `usuarios`
-  MODIFY `id_usuario` int(10) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=7;
+  MODIFY `id_usuario` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=2;
 
 --
 -- Restricciones para tablas volcadas
