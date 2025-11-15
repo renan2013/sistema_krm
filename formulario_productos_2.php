@@ -382,13 +382,11 @@ $result = $conn->query($sql);
                     <select id="color" name="color" class="custom-select">
                         <option value="" disabled selected>Seleccione un color</option>
                         <option value="Blanco">Blanco</option>
-                       
                         <option value="Rojo">Rojo</option>
                         <option value="Azul">Azul</option>
                         <option value="Verde">Verde</option>
                         <option value="Amarillo">Amarillo</option>
-                     
-                        <option value="Transparente">Transparente</option>
+                        <option value="Transparente">Especial</option>
                     </select>
                 </div>
             </div>
