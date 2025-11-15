@@ -23,7 +23,7 @@ $factura_id = $_GET['factura_id']; // Obtener el ID de la factura desde la URL
         <p class="mb-0">Haz clic en el botón para generar el PDF de la factura.</p>
     </div>
     
-    <a href="generar_pdf.php?factura_id=<?php echo $factura_id; ?>" class="btn btn-primary">Generar PDF</a>
+    <a href="pdf/generar_pdf.php?factura_id=<?php echo $factura_id; ?>" class="btn btn-primary">Generar PDF</a>
 </div>
 </body>
 </html>
