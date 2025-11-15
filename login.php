@@ -37,7 +37,9 @@ if (isset($_SESSION["loggedin"]) && $_SESSION["loggedin"] === true) {
             margin-bottom: 1rem;
         }
         .login-logo img {
-            max-width: 150px;
+            max-width: 80%;
+            width: 80%; /* Asegura que ocupe el 80% del ancho disponible */
+            height: auto; /* Mantiene la proporción de la imagen */
         }
         .login-container h2 {
             text-align: center;
