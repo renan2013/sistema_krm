@@ -12,6 +12,12 @@ $stmt_producto->bind_param("i", $id_producto);
 $stmt_producto->execute();
 $result_producto = $stmt_producto->get_result();
 $producto = $result_producto->fetch_assoc();
+$stmt_producto->close();
+
+if (!$producto) {
+    die("Error: No se encontró el producto con el ID proporcionado.");
+}
+
 $nombre_producto = $producto['nombre_producto'];
 $id_categoria_actual = $producto['id_categoria'];
 $ancho_actual = $producto['ancho'];
@@ -19,7 +25,6 @@ $alto_actual = $producto['alto'];
 $grosor_actual = $producto['grosor'];
 $color_actual = $producto['color'];
 $precio_unitario_actual = $producto['precio_unitario'];
-$stmt_producto->close();
 
 // --- Obtener todas las categorías ---
 $sql_categorias = "SELECT id_categoria, nombre_categoria FROM categorias";
