@@ -32,6 +32,13 @@ if (isset($_SESSION["loggedin"]) && $_SESSION["loggedin"] === true) {
             max-width: 400px;
             box-sizing: border-box;
         }
+        .login-logo {
+            text-align: center;
+            margin-bottom: 1rem;
+        }
+        .login-logo img {
+            max-width: 150px;
+        }
         .login-container h2 {
             text-align: center;
             margin-bottom: 1.5rem;
@@ -79,6 +86,9 @@ if (isset($_SESSION["loggedin"]) && $_SESSION["loggedin"] === true) {
 </head>
 <body>
     <div class="login-container">
+        <div class="login-logo">
+            <img src="cotiza.png" alt="Logo KRM">
+        </div>
         <h2>Iniciar Sesión</h2>
         <?php 
         if (!empty($_SESSION['login_error'])) {
