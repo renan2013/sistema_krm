@@ -14,7 +14,7 @@ include "menu.php";
   <body style="background-color: #FAFAFA;">
       <div class="container">
 
-<h4>Registrar Cliente</h4>
+<h4>Registrar Cliente..</h4>
     <form action="procesar_cliente.php" method="post">
       
         <div class="form-group row">
