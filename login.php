@@ -111,8 +111,9 @@ if (isset($_SESSION["loggedin"]) && $_SESSION["loggedin"] === true) {
                 <button type="submit" class="btn">Acceder</button>
             </div>
         </form>
-    </div>
-    <br/>
+        <br/>
     Designed and developed by renangalvan.net - San José, Costa Rica - (506)87777849
+    </div>
+    
 </body>
 </html>
