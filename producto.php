@@ -95,6 +95,8 @@ $result = $conn->query($sql);
             <button name="submit" type="submit" class="btn btn-success">Registrar Producto</button>
             </div>
         </div>
+    </form>
+
         <div class="form-group row">
         <div class="container">
        
@@ -109,5 +111,5 @@ $result = $conn->query($sql);
         
         
       
-    </form>
+    
           </div>
