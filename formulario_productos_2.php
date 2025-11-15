@@ -91,7 +91,7 @@ $result = $conn->query($sql);
             const anchoInput = document.getElementById('ancho');
             const altoInput = document.getElementById('alto');
             const grosorSelect = document.getElementById('grosor');
-            const colorInput = document.getElementById('color');
+            const colorSelect = document.getElementById('color'); // Cambiado a colorSelect
             const precioUnitarioInput = document.getElementById('precio_unitario');
 
             let productsData = {}; // Para almacenar los detalles completos de los productos
@@ -118,7 +118,7 @@ $result = $conn->query($sql);
                 anchoInput.value = "";
                 altoInput.value = "";
                 grosorSelect.selectedIndex = 0;
-                colorInput.value = "";
+                colorSelect.selectedIndex = 0; // Cambiado a colorSelect
                 precioUnitarioInput.value = "";
                 productsData = {}; // Limpiar datos de productos anteriores
 
@@ -167,14 +167,29 @@ $result = $conn->query($sql);
                     } else {
                         grosorSelect.selectedIndex = 0; // Seleccionar la opción por defecto si es null
                     }
-                    colorInput.value = selectedProduct.color !== null ? selectedProduct.color : "";
+                    // Para el color, buscar la opción que coincida con el valor
+                    if (selectedProduct.color !== null) {
+                        let colorFound = false;
+                        for (let i = 0; i < colorSelect.options.length; i++) {
+                            if (colorSelect.options[i].value === selectedProduct.color) {
+                                colorSelect.selectedIndex = i;
+                                colorFound = true;
+                                break;
+                            }
+                        }
+                        if (!colorFound) {
+                            colorSelect.selectedIndex = 0; // Seleccionar la opción por defecto si no se encuentra
+                        }
+                    } else {
+                        colorSelect.selectedIndex = 0; // Seleccionar la opción por defecto si es null
+                    }
                     precioUnitarioInput.value = selectedProduct.precio_unitario !== null ? selectedProduct.precio_unitario : "";
                 } else {
                     // Limpiar si no se encuentra el producto (ej. opción por defecto)
                     anchoInput.value = "";
                     altoInput.value = "";
                     grosorSelect.selectedIndex = 0;
-                    colorInput.value = "";
+                    colorSelect.selectedIndex = 0; // Cambiado a colorSelect
                     precioUnitarioInput.value = "";
                 }
             });
@@ -210,7 +225,7 @@ $result = $conn->query($sql);
             document.getElementById('ancho').value = "";
             document.getElementById('alto').value = "";
             document.getElementById('grosor').selectedIndex = 0;
-            document.getElementById('color').value = "";
+            document.getElementById('color').selectedIndex = 0; // Resetear el select de color
             document.getElementById('cantidad').value = "";
             document.getElementById('precio_unitario').value = "";
         }
@@ -364,7 +379,17 @@ $result = $conn->query($sql);
             <div class="form-group row">
                 <label for="color" class="col-md-4 col-form-label">Color:</label> 
                 <div class="col-md-8">
-                    <input id="color" name="color" type="text" class="form-control">
+                    <select id="color" name="color" class="custom-select">
+                        <option value="" disabled selected>Seleccione un color</option>
+                        <option value="Blanco">Blanco</option>
+                        <option value="Negro">Negro</option>
+                        <option value="Rojo">Rojo</option>
+                        <option value="Azul">Azul</option>
+                        <option value="Verde">Verde</option>
+                        <option value="Amarillo">Amarillo</option>
+                        <option value="Gris">Gris</option>
+                        <option value="Transparente">Transparente</option>
+                    </select>
                 </div>
             </div>
             <div class="form-group row">
