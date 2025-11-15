@@ -84,6 +84,10 @@ if (isset($_SESSION["loggedin"]) && $_SESSION["loggedin"] === true) {
             margin-bottom: 1rem;
             text-align: center;
         }
+        .footer{
+            text-align: center;
+            font-size: 12px;
+        }
     </style>
 </head>
 <body>
@@ -112,7 +116,8 @@ if (isset($_SESSION["loggedin"]) && $_SESSION["loggedin"] === true) {
             </div>
         </form>
         <br/>
-    Designed and developed by renangalvan.net - San José, Costa Rica - (506)87777849
+        <div class="footer">Designed and developed by renangalvan.net - San José, Costa Rica - (506)87777849</div>
+    
     </div>
     
 </body>
