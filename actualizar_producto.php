@@ -21,7 +21,7 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
 
     $sql = "UPDATE productos SET nombre_producto = ?, id_categoria = ?, ancho = ?, alto = ?, grosor = ?, color = ?, precio_unitario = ? WHERE id_producto = ?";
     $stmt = $conn->prepare($sql);
-    $stmt->bind_param("siddsdi", $nombre_producto, $id_categoria, $ancho, $alto, $grosor, $color, $precio_unitario, $id_producto);
+    $stmt->bind_param("siddsdii", $nombre_producto, $id_categoria, $ancho, $alto, $grosor, $color, $precio_unitario, $id_producto);
 
     if ($stmt->execute()) {
         header("Location: producto.php");
